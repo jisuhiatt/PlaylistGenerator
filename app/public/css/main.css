@@ -1,0 +1,120 @@
+img{
+  display: block;
+  height: 300px;
+  width: 300px;
+}
+
+body {
+  color: #fff;
+  background-color: #3F51B5;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+
+/* Custom page header */
+header {
+  /*width: 80%*/;
+/*  margin: auto;
+  height: 80px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 10px;*/
+  /* Make the masthead heading the same height as the navigation */ }
+  
+nav {
+  background-color: #303F9F;
+  height: 40px;
+}
+  .logo {
+    display: inline-block;
+  }
+
+  header h1 {
+    color: white;
+    font-weight: 100;
+    display: inline-block;
+    padding-bottom: 15px;
+  }
+
+  .intro {
+    padding-top: 50px;
+    margin: auto;
+    text-align: center;
+  }
+
+  .intro h1 {
+    color: #fff;
+  }
+
+  .intro p{
+    line-height: 1.3em;
+    color: #C5CAE9;
+  }
+
+  p {
+    margin: 20px;
+  }
+
+  .loginbutton {
+    margin: 40px auto 10px;
+  }
+
+  .intro span{
+    font-size: 12px;
+  }
+
+  .intro span a{
+    color: #FCAB40;
+    font-weight: 700;
+  }
+
+  .card {
+    color: #727272;
+  }
+  .card .card-title {
+    color: #727272;
+    font-size: 24px;
+    font-weight: 300; }
+    .card .card-title.activator {
+      cursor: pointer; }
+
+.btn, .btn-large {
+  text-decoration: none;
+  color: #fff;
+  background-color: #FCAB40;
+  text-align: center;
+  letter-spacing: .5px;
+  -webkit-transition: .2s ease-out;
+  -moz-transition: .2s ease-out;
+  -o-transition: .2s ease-out;
+  -ms-transition: .2s ease-out;
+  transition: .2s ease-out;
+  cursor: pointer; }
+  .btn:hover, .btn-large:hover {
+    background-color: #448AFF;
+    color: #fff; }
+
+.section {
+  color: #727272;
+  padding: 1rem;}
+  .section.no-pad {
+    padding: 0; }
+  .section.no-pad-bot {
+    padding-bottom: 0; }
+  .section.no-pad-top {
+    padding-top: 0; }
+
+.section h5 {
+  font-size: 20px;
+}
+
+
+footer.page-footer {
+  background-color: #303F9F;
+  padding: 0px; }
+  footer.page-footer .footer-copyright {
+    overflow: hidden;
+    height: 50px;
+    line-height: 50px;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(51, 51, 51, 0.08); }
