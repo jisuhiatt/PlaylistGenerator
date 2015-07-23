@@ -3,6 +3,9 @@
   var artistID;
   var artistGenre;
   var songID;
+  var spotifyTrackID;
+  var spotifyTrackID2;
+  var previewURL;
 
 //Initial user query
 
@@ -19,7 +22,7 @@ $('#searchButton').on("click", function(){
 function searchTrack(songQuery, artistQuery){
   $.ajax({
     url: "http://developer.echonest.com/api/v4/song/search?api_key=QBOPBWZSCBCKJI768&format=json&results=1&artist="
-     + artistQuery + "&title=" + songQuery + "&bucket=id:7digital-US&bucket=audio_summary&bucket=tracks",
+     + artistQuery + "&title=" + songQuery + "&bucket=id:7digital-US&bucket=id:spotify&bucket=audio_summary&bucket=tracks",
     dataType: "json",
     success: function(data){
 
@@ -27,10 +30,16 @@ function searchTrack(songQuery, artistQuery){
       console.log(songID);
       artistID = data.response.songs[0].artist_id;
       console.log(artistID);
-      $('#coverImage').attr('src', data.response.songs[0].tracks[0].release_image);
+      spotifyTrackID = data.response.songs[0].tracks[0].foreign_id;
+      spotifyTrackID2 = spotifyTrackID.split("track:").pop()
+      console.log(spotifyTrackID);
+      console.log(spotifyTrackID2);
+      console.log(data.response.songs[0].tracks[1].release_image)
+      $('#coverImage').attr('src', data.response.songs[0].tracks[1].release_image);
       $('#songtitle').text(data.response.songs[0].title + " by " + data.response.songs[0].artist_name);
       $('#preview').append('<embed id="embed_player" src="http://previews.7digital.com/clip/3326" autostart="true" hidden="true"></embed>');
       searchArtistGenre(artistID);
+      searchPreviewURL(spotifyTrackID2);
     }
   });
 };
@@ -48,6 +57,18 @@ function searchArtistGenre(artistID){
   });
 };
 
+function searchPreviewURL(spotifyTrackID2){
+  $.ajax({
+    url: "https://api.spotify.com/v1/tracks/" + spotifyTrackID2,
+    dataType: "json",
+    success: function(data){
+      previewURL= data.preview_url;
+      console.log(previewURL);
+
+    }
+  });
+};
+
 
 //Generate playlist by artist or similar artists
 
@@ -60,7 +81,7 @@ $('#byArtist').on("click", function(){
 function generateByArtist(artistQuery){
   $.ajax({
     url: "http://developer.echonest.com/api/v4/playlist/basic?api_key=QBOPBWZSCBCKJI768&artist="
-     + artistQuery + "&format=json&results=20&type=artist-radio&bucket=id:7digital-US&bucket=tracks&limit=true",
+     + artistQuery + "&format=json&results=20&type=artist-radio&bucket=id:spotify&bucket=tracks&limit=true",
     dataType: "json",
     success: function(data){
 
@@ -90,7 +111,7 @@ $('#byGenre').on("click", function(){
 function generateByGenre(artistGenre){
   $.ajax({
     url: "http://developer.echonest.com/api/v4/playlist/basic?api_key=QBOPBWZSCBCKJI768&genre="
-     + artistGenre + "&format=json&results=20&type=genre-radio&bucket=id:7digital-US&bucket=tracks&limit=true",
+     + artistGenre + "&format=json&results=20&type=genre-radio&bucket=id:spotify&bucket=tracks&limit=true",
     dataType: "json",
     success: function(data){
 
@@ -119,9 +140,13 @@ $('#bySong').on("click", function(){
 function generateBySong(songQuery){
   $.ajax({
     url: "http://developer.echonest.com/api/v4/playlist/basic?api_key=QBOPBWZSCBCKJI768&song_id="
-     + songID + "&format=json&results=20&type=song-radio&bucket=id:7digital-US&bucket=tracks&limit=true",
+     + songID + "&format=json&results=20&type=song-radio&bucket=id:spotify&bucket=tracks&limit=true",
     dataType: "json",
     success: function(data){
+
+      if ($('#newPlayList').is("html *")) { 
+        alert('yes') }
+      else { alert('no') }
 
       $.each(data.response.songs,function(i){
 

@@ -11,7 +11,16 @@
   margin: 30px;
 }
 
+#getStartedButton{
+  margin: 30px;
+}
+
+html{
+  height: 100%;
+}
+
 body {
+  height: 100%;
   color: #fff;
   background-color: #3F51B5;
 }
