@@ -1,18 +1,23 @@
-.picture{
-  display: block;
-  height: 300px;
-  width: 300px;
+#playlistSettings{
+  height: 520px;
 }
 
-.album{
-  display: inline-block;
-  height: 50px;
-  width: 50px;
+#search, #songInfoCard, #playlistSettings, #newPlaylistCard {
+  display: none;
+}
+
+
+.generateDropdownButton{
+  margin: 30px;
 }
 
 body {
   color: #fff;
   background-color: #3F51B5;
+}
+
+h2 {
+  font-size: 2rem;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */

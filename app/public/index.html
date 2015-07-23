@@ -44,10 +44,10 @@
 <!-- end top nav -->
 <div class="container">
     <div class="row">
-      <div class="col s8 offset-s2 centered" id="login">
+      <div class="l6" id="login">
         <main class="intro">
-          <h1 class="center-align">The Epic Playlist Generator</h1>
-             <p class="center-align flow-text">The Epic Playlist Generator builds a playlist of dramatic movie soundtracks that you can play as you live your daily life. You choose how long you want the playlist to play. Then you can export your epic playlists to your Spotify account.
+          <h1 class="center-align">The Music Analyst</h1>
+             <p class="center-align flow-text">The Music Analyst lets you search any track and see its tempo, energy, danceability, and hottness, and finds songs similar to it.Then you can add songs to your Spotify playlists.  
             </p>
 
             <p class="center-align flow-text">First, log in to Spotify to get started!</p>
@@ -61,147 +61,121 @@
         </main>
       </div>
     </div>
-<!--    <footer>
-  
-        <p><span class="glyphicon glyphicon-heart"></span>Made with love by Ji Su Hiatt Design</p>
-    </footer> -->
 
+</div>
 
+<!-- Song and Artist search -->
+
+<div class="container">
      <div class="row">
-        <div class="col s8 offset-s2">
+        <div class="l6">
+          <main class="intro">
+          <h1 class="center-align">The Playlist Generator</h1>
+          
+          <p class="center-align flow-text">The Playlist Generator lets you search for any song and build playlists based on similar songs, artists, or genres.
+            </p>
 
+          <a id="getStartedButton" class="waves-effect waves-light btn-large">Let's get started!</a>
+            </div>
+          </main>
+      </div>
+</div>
+          
+<div class="container">
+     <div class="row">
+        <div class="l6">
+          <section id="search">
+          <h2>What song do you want to look for?</h2>
+          <input class="songQuery" type="text"/>
 
-          <div class="card white darken-1">
+          <h2>By which artist?</h2>
+          <input class="artistQuery" type="text"/>
+          <a id="searchButton" class="waves-effect waves-light btn-large">Search</a>
+          </section>
+          </div>
+            </div>
+      </div>
+</div>
+
+<!-- Song info/playlist generator card -->
+<div class="container">
+    <div class="row">
+      <div class="col l6">
+
+          <div id = "songInfoCard" class="card white darken-1">
+            <div class="card-image waves-effect waves-block waves-light">
+              <img id="coverImage" class="activator" src="">
+            </div>
             <div class="card-content">
-              <span class="card-title left-align">What do you want to listen to?</span>
-                <div id="loggedin">
-        <div id="user-profile">
+              <span id="songtitle" class="card-title activator grey-text text-darken-4"><i class="material-icons right">more_vert</i></span>
+
+
+
+
+
+            </div>
+            <div class="card-reveal">
+              <span id="songtitle" class="card-title grey-text text-darken-4"><i class="material-icons right">close</i></span>
+              <p>Here is some more information about this product that is only revealed once clicked on.</p>
+            </div>
+          </div>
+
         </div>
-        <div id="oauth">
+
+        <div class="col l6">
+          <div id = "playlistSettings" class="card white darken-1">
+            <div class="card-content">
+              <span class="card-title">Adjust your playlist settings</span>
+                <li class="divider"></li>
+                 <h5>How long do you want your playlist to be?</h5>
+               <div class="center-align">
+
+
+                    <!-- Dropdown Trigger -->
+                    <a class='generateDropdownButton btn' href='#' data-activates='dropdown1'>Generate a Playlist</a>
+
+                    <!-- Dropdown Structure -->
+                    <ul id='dropdown1' class='dropdown-content'>
+                      <li><a id="byArtist" href="#!">By similar artists</a></li>
+                      <li class="divider"></li>
+                      <li><a id="byGenre" href="#!">By similar genres</a></li>
+                      <li class="divider"></li>
+                      <li><a id="bySong" href="#!">By similar songs</a></li>
+                    </ul>
+                    <!-- end dropdown -->
+                  </div>
+
+            </div>
+
+          </div>
+
         </div>
-        <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
-      </div>
-      
-      <input type="text"/>
-<button>Go</button>
-<img class="picture" src=""/>
-
-               <!-- Dropdown Trigger -->
-                <div class="center-align">
-                  <a class='waves-effect waves-light dropdown-button btn center-align' href='#' data-activates='dropdown1'>Choose a Genre</a>
 
 
-                <!-- Dropdown Structure -->
-                  <ul id='dropdown1' class='dropdown-content'>
-                    <li><a href="#!">Pop</a></li>
-                    <li><a href="#!">R&B and Soul</a></li>
-                    <li><a href="#!">Rap/Hip Hop</a></li>
-                    <li><a href="#!">Rock/Alternative Rock</a></li>
-                    <li><a href="#!">Asian Pop</a></li>
-                    <li><a href="#!">Country</a></li>
-                    <li><a href="#!">Soundtracks</a></li>
-                    <li><a href="#!">Classical</a></li>
-                  </ul>
-                </div>
-
-          <span class="card-title left-align">For how long?</span>
-
-          <div class="center-align"> <p>[insert slider here]</p> </div>
 
       </div>
+</div>
+
+<!-- Generated playlist card -->
+<div class="container">
+     <div class="row">
+        <div class="col l12">
+          <div id = "newPlaylistCard" class="card white darken-1">
+            <div class="card-content">
+              <span class="card-title">Here is your playlist!</span>
+            </div>
+
+          </div>
+
+        </div>
     </div>
-
-
-          <!-- playlist -->
-
-     <div class="row">
-        <div class="col s12 m7">
-          <div class="card">
-            <div class="card-image">
-              <img class= "cardimage" src="">
-              <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-          <div class="card white darken-1">
-            <div class="card-content">
-              <span class="card-title">Here is your personalized playlist!</span>
-              
-              <div class="divider"></div>
-              <div class="section hoverable">
-
-                <h5>Arwen's Vigil</h5>
-                <p>The Piano Guys</p>
-                <img class="album" src=""/>
-              </div>
-              <div class="divider"></div>
-              <div class="section hoverable">
-                <h5>The River Flows in You</h5>
-                <p>Yiruma</p>
-              </div>
-              <div class="divider"></div>
-              <div class="section hoverable">
-                <h5 class="songtitle">""</h5>
-                <p>Artist</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
 </div>
 
 
 
-      <!-- what user sees after they log in -->
-
-<div class="container">
-      <div id="login">
-        <h1>This is an example of the Authorization Code flow</h1>
-        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
-      </div>
 
 
 
-    </div>
-
-    <script id="user-profile-template" type="text/x-handlebars-template">
-      <h1>Logged in as {{display_name}}</h1>
-      <div class="media">
-        <div class="pull-left">
-          <img class="media-object" width="150" src="{{images.0.url}}" />
-        </div>
-        <div class="media-body">
-          <dl class="dl-horizontal">
-            <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
-            <dt>Id</dt><dd>{{id}}</dd>
-            <dt>Email</dt><dd>{{email}}</dd>
-            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
-            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
-            <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
-            <dt>Country</dt><dd>{{country}}</dd>
-          </dl>
-        </div>
-      </div>
-    </script>
-
-    <script id="oauth-template" type="text/x-handlebars-template">
-      <h2>oAuth info</h2>
-      <dl class="dl-horizontal">
-        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
-        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}></dd>
-      </dl>
-    </script>
-    
 
 <footer class="page-footer">
           <div class="footer-copyright">
