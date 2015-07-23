@@ -7,6 +7,9 @@
   var spotifyTrackID2;
   var previewURL;
 
+  var currentSong = {};
+  var playlist = [];
+
 //Initial user query
 
 $('#searchButton').on("click", function(){
@@ -75,7 +78,7 @@ function searchPreviewURL(spotifyTrackID2){
 
 $('#byArtist').on("click", function(){
   generateByArtist(songQuery, artistQuery)
-  $('#newPlaylistCard').slideDown();
+  $('#newPlaylistSection').slideDown();
 });
 
 function generateByArtist(artistQuery){
@@ -85,27 +88,39 @@ function generateByArtist(artistQuery){
     dataType: "json",
     success: function(data){
 
+      if ($(".newSong, .newArtist").length){
+            console.log("a playlist has already been generated");
+            $("#PlaylistCardContent").empty();
+          }
+          else {
+            console.log("new songs do not exist");
+
+          }
+
       $.each(data.response.songs,function(i){
 
-          console.log(data.response.songs[i].title);
-          console.log(data.response.songs[i].artist_name);
-          $("#newPlaylistCard").append('<div class="divider"></div><div class="section hoverable"><h5 id="newSong">' 
-            + data.response.songs[i].title 
-            + '</h5><p id="newArtist"></p>' 
-            + data.response.songs[i].artist_name 
-            + '</div>');
+          var newSong = data.response.songs[i].title;
+          var newArtist = data.response.songs[i].artist_name; 
+          console.log(newSong);
+          console.log(newArtist);
+
+          $("#PlaylistCardContent").append('<div class="section hoverable"><h5 class="newSong">' 
+            + newSong
+            + '</h5><p class="newArtist"></p>' 
+            + newArtist
+            + '</div><div class="divider"></div>');
 
       });
-
     }
   });
 };
+
 
 //Generate playlist by artist genre
 
 $('#byGenre').on("click", function(){
   generateByGenre(artistGenre)
-  $('#newPlaylistCard').slideDown();
+  $('#newPlaylistSection').slideDown();
 });
 
 function generateByGenre(artistGenre){
@@ -115,15 +130,27 @@ function generateByGenre(artistGenre){
     dataType: "json",
     success: function(data){
 
+     if ($(".newSong, .newArtist").length){
+            console.log("a playlist has already been generated");
+            $("#PlaylistCardContent").empty();
+          }
+          else {
+            console.log("new songs do not exist");
+
+          }
+
       $.each(data.response.songs,function(i){
 
-          console.log(data.response.songs[i].title);
-          console.log(data.response.songs[i].artist_name);
-          $("#newPlaylist").append('<div class="divider"></div><div class="section hoverable"><h5 id="newSong">' 
-            + data.response.songs[i].title 
-            + '</h5><p id="newArtist"></p>' 
-            + data.response.songs[i].artist_name 
-            + '</div>');
+          var newSong = data.response.songs[i].title;
+          var newArtist = data.response.songs[i].artist_name; 
+          console.log(newSong);
+          console.log(newArtist);
+
+          $("#PlaylistCardContent").append('<div class="section hoverable"><h5 class="newSong">' 
+            + newSong
+            + '</h5><p class="newArtist"></p>' 
+            + newArtist
+            + '</div><div class="divider"></div>');
 
       });
     }
@@ -134,7 +161,7 @@ function generateByGenre(artistGenre){
 
 $('#bySong').on("click", function(){
   generateBySong(songQuery, artistQuery)
-  $('#newPlaylistCard').slideDown();
+  $('#newPlaylistSection').slideDown();
 });
 
 function generateBySong(songQuery){
@@ -144,19 +171,27 @@ function generateBySong(songQuery){
     dataType: "json",
     success: function(data){
 
-      if ($('#newPlayList').is("html *")) { 
-        alert('yes') }
-      else { alert('no') }
+      if ($(".newSong, .newArtist").length){
+            console.log("a playlist has already been generated");
+            $("#PlaylistCardContent").empty();
+          }
+          else {
+            console.log("new songs do not exist");
+
+          }
 
       $.each(data.response.songs,function(i){
 
-          console.log(data.response.songs[i].title);
-          console.log(data.response.songs[i].artist_name);
-          $("#newPlaylist").append('<div class="divider"></div><div class="section hoverable"><h5 id="newSong">' 
-            + data.response.songs[i].title 
-            + '</h5><p id="newArtist"></p>' 
-            + data.response.songs[i].artist_name 
-            + '</div>');
+          var newSong = data.response.songs[i].title;
+          var newArtist = data.response.songs[i].artist_name; 
+          console.log(newSong);
+          console.log(newArtist);
+
+          $("#PlaylistCardContent").append('<div class="section hoverable"><h5 class="newSong">' 
+            + newSong
+            + '</h5><p class="newArtist"></p>' 
+            + newArtist
+            + '</div><div class="divider"></div>');
 
       });
     }
@@ -191,72 +226,4 @@ $('#getStartedButton').on("click", function (){
 //             //location.reload();
 //             return false;
 //         }
-
-
-      (function() {
-        /**
-         * Obtains parameters from the hash of the URL
-         * @return Object
-         */
-        function getHashParams() {
-          var hashParams = {};
-          var e, r = /([^&;=]+)=?([^&;]*)/g,
-              q = window.location.hash.substring(1);
-          while ( e = r.exec(q)) {
-             hashParams[e[1]] = decodeURIComponent(e[2]);
-          }
-          return hashParams;
-        }
-        var userProfileSource = document.getElementById('user-profile-template').innerHTML,
-            userProfileTemplate = Handlebars.compile(userProfileSource),
-            userProfilePlaceholder = document.getElementById('user-profile');
-        var oauthSource = document.getElementById('oauth-template').innerHTML,
-            oauthTemplate = Handlebars.compile(oauthSource),
-            oauthPlaceholder = document.getElementById('oauth');
-        var params = getHashParams();
-        var access_token = params.access_token,
-            refresh_token = params.refresh_token,
-            error = params.error;
-        if (error) {
-          alert('There was an error during the authentication');
-        } else {
-          if (access_token) {
-            // render oauth info
-            oauthPlaceholder.innerHTML = oauthTemplate({
-              access_token: access_token,
-              refresh_token: refresh_token
-            });
-            $.ajax({
-                url: 'https://api.spotify.com/v1/me',
-                headers: {
-                  'Authorization': 'Bearer ' + access_token
-                },
-                success: function(response) {
-                  userProfilePlaceholder.innerHTML = userProfileTemplate(response);
-                  $('#login').hide();
-                  $('#loggedin').show();
-                }
-            });
-          } else {
-              // render initial screen
-              $('#login').show();
-              $('#loggedin').hide();
-          }
-          document.getElementById('obtain-new-token').addEventListener('click', function() {
-            $.ajax({
-              url: '/refresh_token',
-              data: {
-                'refresh_token': refresh_token
-              }
-            }).done(function(data) {
-              access_token = data.access_token;
-              oauthPlaceholder.innerHTML = oauthTemplate({
-                access_token: access_token,
-                refresh_token: refresh_token
-              });
-            });
-          }, false);
-        }
-      })();
-
 

@@ -127,22 +127,16 @@
             <div class="card-content">
               <span class="card-title">How do you want to generate your playlist?</span>
                 <li class="divider"></li>
-                 <h5>How long do you want your playlist to be?</h5>
+
                <div class="center-align">
+                    
+                    <a id="byArtist" class="waves-effect waves-light btn-large">By similar artists</a>
+                    
+                    <a id="byGenre" class="waves-effect waves-light btn-large">By similar genres</a>
+
+                    <a id="bySong" class="waves-effect waves-light btn-large">By similar songs</a>
 
 
-                    <!-- Dropdown Trigger -->
-                    <a class='generateDropdownButton btn' href='#' data-activates='dropdown1'>Generate a Playlist</a>
-
-                    <!-- Dropdown Structure -->
-                    <ul id='dropdown1' class='dropdown-content'>
-                      <li><a id="byArtist" href="#!">By similar artists</a></li>
-                      <li class="divider"></li>
-                      <li><a id="byGenre" href="#!">By similar genres</a></li>
-                      <li class="divider"></li>
-                      <li><a id="bySong" href="#!">By similar songs</a></li>
-                    </ul>
-                    <!-- end dropdown -->
                   </div>
 
             </div>
@@ -160,24 +154,13 @@
 <div class="container">
      <div class="row">
         <div class="col l12">
+          <section id="newPlaylistSection">
+          <h2>Here is your new playlist!</h2>
           <div id = "newPlaylistCard" class="card white darken-1">
-            <div class="card-content">
-              <span class="card-title">Here is your playlist!</span>
+            <div id = "PlaylistCardContent" class="card-content">
             </div>
-              <div class="divider"></div>
-              <div class="section hoverable">
-                <h5 id="newSong"></h5>
-                <p id="newArtist"></p> 
-              </div>
-
-              <div class="divider"></div>
-              <div class="section hoverable">
-                <h5 id="newSong"></h5>
-                <p id="newArtist"></p> 
-              </div>
-
           </div>
-
+          </section>
         </div>
     </div>
 </div>
