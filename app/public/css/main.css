@@ -1,3 +1,7 @@
+audio {
+  background-color: #fff;
+}
+
 #byArtist, #byGenre, #bySong {
   margin-top: 40px;
   width: 250px;

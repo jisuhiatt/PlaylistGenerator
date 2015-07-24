@@ -97,7 +97,7 @@
       </div>
 </div>
 
-<!-- Song info/playlist generator card -->
+<!-- Song info card-->
 <div class="container">
     <div class="row">
       <div class="col l6">
@@ -105,9 +105,12 @@
           <div id = "songInfoCard" class="card white darken-1">
             <div class="card-image waves-effect waves-block waves-light">
               <img id="coverImage" class="activator" src="">
+              <audio controls>
+                <source id="preview" src="https://p.scdn.co/mp3-preview/e6218a9bb392ba325b1be22a3d26bd1a14c2a9ba">
+              </audio>
             </div>
             <div class="card-content">
-              <span id="songtitle" class="card-title activator grey-text text-darken-4"><i class="material-icons right">more_vert</i></span>
+              <span id="songtitle" class="card-title activator grey-text text-darken-4"><i class="material-icons right">More</i></span>
 
 
 
@@ -116,7 +119,10 @@
             </div>
             <div class="card-reveal">
               <span id="songtitle" class="card-title grey-text text-darken-4"><i class="material-icons right">close</i></span>
-              <p>Here is some more information about this product that is only revealed once clicked on.</p>
+              <h2 id="as_energy"></h2>
+              <h2 id="as_tempo"></h2>
+              <h2 id="as_loudness"></h2>
+              <h2 id="as_danceability"></h2>
             </div>
           </div>
 

@@ -1,14 +1,27 @@
+//Define all variables, objects, arrays
+
   var songQuery;
   var artistQuery;
   var artistID;
   var artistGenre;
   var songID;
+  var trackImage;
   var spotifyTrackID;
   var spotifyTrackID2;
+  var duration;
   var previewURL;
 
   var currentSong = {};
+  var newSong = {};
   var playlist = [];
+
+  //audio summary
+  var energy;
+  var tempo;
+  var loudness;
+  var danceability;
+  var duration 
+
 
 //Initial user query
 
@@ -37,11 +50,23 @@ function searchTrack(songQuery, artistQuery){
       spotifyTrackID2 = spotifyTrackID.split("track:").pop()
       console.log(spotifyTrackID);
       console.log(spotifyTrackID2);
-      console.log(data.response.songs[0].tracks[1].release_image)
-      $('#coverImage').attr('src', data.response.songs[0].tracks[1].release_image);
+
+      energy = data.response.songs[0].audio_summary.energy;
+      tempo = data.response.songs[0].audio_summary.tempo;
+      loudness = data.response.songs[0].audio_summary.loudness;
+      danceability = data.response.songs[0].audio_summary.danceability;
+      duration = data.response.songs[0].audio_summary.duration;
+      
+
+
+      $('#as_energy').text("Energy: " + energy);
+      $('#as_tempo').text("Tempo: " + tempo);
+      $('#as_loudness').text("Loudness: " + loudness);
+      $('#as_danceability').text("Danceability: " + danceability);
+
       $('#songtitle').text(data.response.songs[0].title + " by " + data.response.songs[0].artist_name);
-      $('#preview').append('<embed id="embed_player" src="http://previews.7digital.com/clip/3326" autostart="true" hidden="true"></embed>');
       searchArtistGenre(artistID);
+      searchTrackImage(spotifyTrackID2)
       searchPreviewURL(spotifyTrackID2);
     }
   });
@@ -60,6 +85,17 @@ function searchArtistGenre(artistID){
   });
 };
 
+function searchTrackImage(spotifyTrackID2){
+  $.ajax({
+    url: "https://api.spotify.com/v1/tracks/" + spotifyTrackID2,
+    dataType: "json",
+    success: function(data){
+      trackImage = data.album.images[0].url
+      $('#coverImage').attr('src', trackImage);
+    }
+  });
+};
+
 function searchPreviewURL(spotifyTrackID2){
   $.ajax({
     url: "https://api.spotify.com/v1/tracks/" + spotifyTrackID2,
@@ -73,6 +109,24 @@ function searchPreviewURL(spotifyTrackID2){
 };
 
 
+
+//Play query song preview
+
+// $('#coverImage').on("click", function(){
+//   previewURL
+
+// });
+
+//Play playlist song preview
+
+// $('.section hoverable').on("click", function(){
+//   //grab song and artist on click
+//   //grab spotify id
+//   //get preview url
+
+// });
+
+
 //Generate playlist by artist or similar artists
 
 
@@ -82,6 +136,7 @@ $('#byArtist').on("click", function(){
 });
 
 function generateByArtist(artistQuery){
+
   $.ajax({
     url: "http://developer.echonest.com/api/v4/playlist/basic?api_key=QBOPBWZSCBCKJI768&artist="
      + artistQuery + "&format=json&results=20&type=artist-radio&bucket=id:spotify&bucket=tracks&limit=true",
@@ -101,14 +156,32 @@ function generateByArtist(artistQuery){
 
           var newSong = data.response.songs[i].title;
           var newArtist = data.response.songs[i].artist_name; 
+          var newSpotifyTrackID = data.response.songs[i].tracks[0].foreign_id;
+          var newSpotifyTrackID2 = newSpotifyTrackID.split("track:").pop();
+
           console.log(newSong);
           console.log(newArtist);
+          console.log(newSpotifyTrackID);
+          console.log(newSpotifyTrackID2);
 
-          $("#PlaylistCardContent").append('<div class="section hoverable"><h5 class="newSong">' 
+
+          $.ajax({
+            url: "https://api.spotify.com/v1/tracks/" + newSpotifyTrackID2,
+            dataType: "json",
+            success: function(data){
+            newPreviewURL= data.preview_url;
+            console.log(newPreviewURL);
+
+            $("#PlaylistCardContent").append('<div class="section hoverable"><h5 class="newSong">' 
             + newSong
             + '</h5><p class="newArtist"></p>' 
-            + newArtist
+            + newArtist + newSpotifyTrackID2 + newPreviewURL
             + '</div><div class="divider"></div>');
+
+            }
+          });
+
+
 
       });
     }
@@ -198,16 +271,25 @@ function generateBySong(songQuery){
   });
 };
 
-$('.generateDropdownButton').dropdown({
-      inDuration: 300,
-      outDuration: 225,
-      constrain_width: false, // Does not change width of dropdown to that of the activator
-      hover: true, // Activate on hover
-      gutter: 100, // Spacing from edge
-      belowOrigin: true // Displays dropdown below the button
+
+//Play each song in playlist
+
+function playPlaylistSong(){
+
+}
+
+
+
+
+$('').on("click", function (){
+      playPlaylistSong();
     }
-  );
-     
+);
+
+
+
+//Get started
+
 $('#getStartedButton').on("click", function (){
       $('.intro').slideUp();
       $('#search').slideDown();
