@@ -1,3 +1,15 @@
+img {
+  float: left;
+  margin-left: 15px;
+  margin-right: 25px;
+  margin-top: 5px;
+}
+
+#coverImage {
+  margin: 0;
+  float: none;
+}
+
 audio {
   background-color: #fff;
 }

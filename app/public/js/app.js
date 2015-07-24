@@ -103,6 +103,7 @@ function searchPreviewURL(spotifyTrackID2){
     success: function(data){
       previewURL= data.preview_url;
       console.log(previewURL);
+      $('#preview').attr('src', previewURL);
 
     }
   });
@@ -170,18 +171,20 @@ function generateByArtist(artistQuery){
             dataType: "json",
             success: function(data){
             newPreviewURL= data.preview_url;
+            newTrackImage = data.album.images[0].url;
             console.log(newPreviewURL);
+            console.log(newTrackImage);
 
-            $("#PlaylistCardContent").append('<div class="section hoverable"><h5 class="newSong">' 
+            $("#PlaylistCardContent").append('<div class="section hoverable"><img src="'+ newTrackImage +'" alt="trackImage" height="60" width="60"><h5 class="newSong">' 
             + newSong
             + '</h5><p class="newArtist"></p>' 
-            + newArtist + newSpotifyTrackID2 + newPreviewURL
-            + '</div><div class="divider"></div>');
+            + newArtist
+            + '<audio controls><source id="newPreview" src="'
+            + newPreviewURL
+            + '"></audio></div><div class="divider"></div>');
 
             }
           });
-
-
 
       });
     }
@@ -203,7 +206,7 @@ function generateByGenre(artistGenre){
     dataType: "json",
     success: function(data){
 
-     if ($(".newSong, .newArtist").length){
+      if ($(".newSong, .newArtist").length){
             console.log("a playlist has already been generated");
             $("#PlaylistCardContent").empty();
           }
@@ -216,14 +219,34 @@ function generateByGenre(artistGenre){
 
           var newSong = data.response.songs[i].title;
           var newArtist = data.response.songs[i].artist_name; 
+          var newSpotifyTrackID = data.response.songs[i].tracks[0].foreign_id;
+          var newSpotifyTrackID2 = newSpotifyTrackID.split("track:").pop();
+
           console.log(newSong);
           console.log(newArtist);
+          console.log(newSpotifyTrackID);
+          console.log(newSpotifyTrackID2);
 
-          $("#PlaylistCardContent").append('<div class="section hoverable"><h5 class="newSong">' 
+
+          $.ajax({
+            url: "https://api.spotify.com/v1/tracks/" + newSpotifyTrackID2,
+            dataType: "json",
+            success: function(data){
+            newPreviewURL= data.preview_url;
+            newTrackImage = data.album.images[0].url;
+            console.log(newPreviewURL);
+            console.log(newTrackImage);
+
+            $("#PlaylistCardContent").append('<div class="section hoverable"><img src="'+ newTrackImage +'" alt="trackImage" height="60" width="60"><h5 class="newSong">' 
             + newSong
             + '</h5><p class="newArtist"></p>' 
             + newArtist
-            + '</div><div class="divider"></div>');
+            + '<audio controls><source id="newPreview" src="'
+            + newPreviewURL
+            + '"></audio></div><div class="divider"></div>');
+
+            }
+          });
 
       });
     }
@@ -257,14 +280,34 @@ function generateBySong(songQuery){
 
           var newSong = data.response.songs[i].title;
           var newArtist = data.response.songs[i].artist_name; 
+          var newSpotifyTrackID = data.response.songs[i].tracks[0].foreign_id;
+          var newSpotifyTrackID2 = newSpotifyTrackID.split("track:").pop();
+
           console.log(newSong);
           console.log(newArtist);
+          console.log(newSpotifyTrackID);
+          console.log(newSpotifyTrackID2);
 
-          $("#PlaylistCardContent").append('<div class="section hoverable"><h5 class="newSong">' 
+
+          $.ajax({
+            url: "https://api.spotify.com/v1/tracks/" + newSpotifyTrackID2,
+            dataType: "json",
+            success: function(data){
+            newPreviewURL= data.preview_url;
+            newTrackImage = data.album.images[0].url;
+            console.log(newPreviewURL);
+            console.log(newTrackImage);
+
+            $("#PlaylistCardContent").append('<div class="section hoverable"><img src="'+ newTrackImage +'" alt="trackImage" height="60" width="60"><h5 class="newSong">' 
             + newSong
             + '</h5><p class="newArtist"></p>' 
             + newArtist
-            + '</div><div class="divider"></div>');
+            + '<audio controls><source id="newPreview" src="'
+            + newPreviewURL
+            + '"></audio></div><div class="divider"></div>');
+
+            }
+          });
 
       });
     }
