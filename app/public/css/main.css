@@ -1,3 +1,7 @@
+/*#preview{
+  display: none;
+}*/
+
 img {
   float: left;
   margin-left: 15px;
@@ -11,7 +15,8 @@ img {
 }
 
 audio {
-  background-color: #fff;
+  float: right;
+  margin-bottom: 20px;
 }
 
 #byArtist, #byGenre, #bySong {

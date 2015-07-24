@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Spotify Playlist Generator</title>
+    <title>The Playlist Generator</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
@@ -91,6 +91,7 @@
           <h2>By which artist?</h2>
           <input class="artistQuery" type="text"/>
           <a id="searchButton" class="waves-effect waves-light btn-large">Search</a>
+
           </section>
           </div>
             </div>
@@ -104,10 +105,10 @@
 
           <div id = "songInfoCard" class="card white darken-1">
             <div class="card-image waves-effect waves-block waves-light">
+              <div id="coverImagePreview">
               <img id="coverImage" class="activator" src="">
-              <audio id="preview" controls>
-                <source src="">
-              </audio>
+
+              </div>
             </div>
             <div class="card-content">
               <span id="songtitle" class="card-title activator grey-text text-darken-4"><i class="material-icons right">More</i></span>
@@ -123,6 +124,11 @@
               <h2 id="as_tempo"></h2>
               <h2 id="as_loudness"></h2>
               <h2 id="as_danceability"></h2>
+
+              <audio id="preview" controls>
+                <source src="">
+              </audio>
+
             </div>
           </div>
 

@@ -22,6 +22,12 @@
   var danceability;
   var duration 
 
+//Play audio on cover image click
+
+$('#coverImagePreview').on('click', function() {
+      $("#preview")[0].play();
+    });
+
 
 //Initial user query
 
@@ -68,7 +74,7 @@ function searchTrack(songQuery, artistQuery){
       searchArtistGenre(artistID);
       searchTrackImage(spotifyTrackID2)
       searchPreviewURL(spotifyTrackID2);
-    }
+      },
   });
 };
 
@@ -109,23 +115,6 @@ function searchPreviewURL(spotifyTrackID2){
   });
 };
 
-
-
-//Play query song preview
-
-// $('#coverImage').on("click", function(){
-//   previewURL
-
-// });
-
-//Play playlist song preview
-
-// $('.section hoverable').on("click", function(){
-//   //grab song and artist on click
-//   //grab spotify id
-//   //get preview url
-
-// });
 
 
 //Generate playlist by artist or similar artists
@@ -179,9 +168,15 @@ function generateByArtist(artistQuery){
             + newSong
             + '</h5><p class="newArtist"></p>' 
             + newArtist
-            + '<audio controls><source id="newPreview" src="'
+            + '<audio id="newPreview" controls><source src="'
             + newPreviewURL
             + '"></audio></div><div class="divider"></div>');
+
+            $('.section').on('click', function() {
+              console.log("I'm clicking!")
+              $("#newPreview")[i].play();
+            });
+
 
             }
           });
