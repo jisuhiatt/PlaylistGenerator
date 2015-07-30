@@ -312,10 +312,6 @@ function generateBySong(songQuery){
 
 //Play each song in playlist
 
-function playPlaylistSong(){
-
-}
-
 
 
 
@@ -334,16 +330,4 @@ $('#getStartedButton').on("click", function (){
     }
 );
 
-// success: function (response) {
-//             for (i = 0; i < response.length; i++) {
-//                 alert(response[i].class_id);
-//             }
-
-//             $("#find").dialog('close');
-//             $('.remove').remove();
-//             $('#find_data').before('abcccccc');
-
-//             //location.reload();
-//             return false;
-//         }
 
