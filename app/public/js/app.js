@@ -1,45 +1,70 @@
 //Define all variables, objects, arrays
 
-  var songQuery;
-  var artistQuery;
-  var artistID;
-  var artistGenre;
-  var songID;
-  var trackImage;
-  var spotifyTrackID;
-  var spotifyTrackID2;
-  var duration;
-  var previewURL;
+var songQuery;
+var artistQuery;
+var artistID;
+var artistGenre;
+var songID;
+var trackImage;
+var spotifyTrackID;
+var spotifyTrackID2;
+var duration;
+var previewURL;
 
-  var currentSong = {};
-  var newSong = {};
-  var playlist = [];
+var currentSong = {};
+var newSong = {};
+var playlist = [];
 
-  //audio summary
-  var energy;
-  var tempo;
-  var loudness;
-  var danceability;
-  var duration 
+//audio summary
+var energy;
+var tempo;
+var loudness;
+var danceability;
+var duration 
+
+// Events ------------------------------------------------------
 
 //Play audio on cover image click
-
 $('#coverImagePreview').on('click', function() {
-      $("#preview")[0].play();
-    });
-
+  $("#preview")[0].play();
+});
 
 //Initial user query
-
 $('#searchButton').on("click", function(){
   songQuery = $('.songQuery').val();
   artistQuery = $('.artistQuery').val();
-  console.log(songQuery);
-  console.log(artistQuery);
   searchTrack(songQuery, artistQuery);
   $('#songInfoCard').slideDown();
   $('#playlistSettings').slideDown();
+  $('footer').css('position', 'relative');
 });
+
+// Get started
+$('#getStartedButton').on("click", function (){
+  $('.intro').slideUp();
+  $('#search').slideDown();
+});
+
+//Generate playlist by song or similar songs
+$('#bySong').on("click", function(){
+  generateBySong(songQuery, artistQuery)
+  $('#newPlaylistSection').slideDown();
+});
+
+//Generate playlist by artist genre
+$('#byGenre').on("click", function(){
+  generateByGenre(artistGenre);
+  $('#newPlaylistSection').slideDown();
+});
+
+//Generate playlist by artist or similar artists
+$('#byArtist').on("click", function(){
+  generateByArtist(songQuery, artistQuery)
+  $('#newPlaylistSection').slideDown();
+});
+
+
+// API Functions -----------------------------------------------
 
 function searchTrack(songQuery, artistQuery){
   $.ajax({
@@ -49,21 +74,15 @@ function searchTrack(songQuery, artistQuery){
     success: function(data){
 
       songID = data.response.songs[0].id;
-      console.log(songID);
       artistID = data.response.songs[0].artist_id;
-      console.log(artistID);
       spotifyTrackID = data.response.songs[0].tracks[0].foreign_id;
       spotifyTrackID2 = spotifyTrackID.split("track:").pop()
-      console.log(spotifyTrackID);
-      console.log(spotifyTrackID2);
 
       energy = data.response.songs[0].audio_summary.energy;
       tempo = data.response.songs[0].audio_summary.tempo;
       loudness = data.response.songs[0].audio_summary.loudness;
       danceability = data.response.songs[0].audio_summary.danceability;
       duration = data.response.songs[0].audio_summary.duration;
-      
-
 
       $('#as_energy').text("Energy: " + energy);
       $('#as_tempo').text("Tempo: " + tempo);
@@ -74,7 +93,7 @@ function searchTrack(songQuery, artistQuery){
       searchArtistGenre(artistID);
       searchTrackImage(spotifyTrackID2)
       searchPreviewURL(spotifyTrackID2);
-      },
+    },
   });
 };
 
@@ -85,8 +104,6 @@ function searchArtistGenre(artistID){
     dataType: "json",
     success: function(data){
       artistGenre = data.response.artist.genres[0].name;
-      console.log(artistGenre);
-
     }
   });
 };
@@ -108,91 +125,22 @@ function searchPreviewURL(spotifyTrackID2){
     dataType: "json",
     success: function(data){
       previewURL= data.preview_url;
-      console.log(previewURL);
       $('#preview').attr('src', previewURL);
-
     }
   });
 };
 
-
-
-//Generate playlist by artist or similar artists
-
-
-$('#byArtist').on("click", function(){
-  generateByArtist(songQuery, artistQuery)
-  $('#newPlaylistSection').slideDown();
-});
-
 function generateByArtist(artistQuery){
-
   $.ajax({
     url: "http://developer.echonest.com/api/v4/playlist/basic?api_key=QBOPBWZSCBCKJI768&artist="
      + artistQuery + "&format=json&results=20&type=artist-radio&bucket=id:spotify&bucket=tracks&limit=true",
     dataType: "json",
     success: function(data){
-
-      if ($(".newSong, .newArtist").length){
-            console.log("a playlist has already been generated");
-            $("#PlaylistCardContent").empty();
-          }
-          else {
-            console.log("new songs do not exist");
-
-          }
-
-      $.each(data.response.songs,function(i){
-
-          var newSong = data.response.songs[i].title;
-          var newArtist = data.response.songs[i].artist_name; 
-          var newSpotifyTrackID = data.response.songs[i].tracks[0].foreign_id;
-          var newSpotifyTrackID2 = newSpotifyTrackID.split("track:").pop();
-
-          console.log(newSong);
-          console.log(newArtist);
-          console.log(newSpotifyTrackID);
-          console.log(newSpotifyTrackID2);
-
-
-          $.ajax({
-            url: "https://api.spotify.com/v1/tracks/" + newSpotifyTrackID2,
-            dataType: "json",
-            success: function(data){
-            newPreviewURL= data.preview_url;
-            newTrackImage = data.album.images[0].url;
-            console.log(newPreviewURL);
-            console.log(newTrackImage);
-
-            $("#PlaylistCardContent").append('<div class="section hoverable"><img src="'+ newTrackImage +'" alt="trackImage" height="60" width="60"><h5 class="newSong">' 
-            + newSong
-            + '</h5><p class="newArtist"></p>' 
-            + newArtist
-            + '<audio id="newPreview" controls><source src="'
-            + newPreviewURL
-            + '"></audio></div><div class="divider"></div>');
-
-            $('.section').on('click', function() {
-              console.log("I'm clicking!")
-              $("#newPreview")[i].play();
-            });
-
-
-            }
-          });
-
-      });
+      generateTracks(data.response.songs);
     }
   });
 };
 
-
-//Generate playlist by artist genre
-
-$('#byGenre').on("click", function(){
-  generateByGenre(artistGenre)
-  $('#newPlaylistSection').slideDown();
-});
 
 function generateByGenre(artistGenre){
   $.ajax({
@@ -200,60 +148,10 @@ function generateByGenre(artistGenre){
      + artistGenre + "&format=json&results=20&type=genre-radio&bucket=id:spotify&bucket=tracks&limit=true",
     dataType: "json",
     success: function(data){
-
-      if ($(".newSong, .newArtist").length){
-            console.log("a playlist has already been generated");
-            $("#PlaylistCardContent").empty();
-          }
-          else {
-            console.log("new songs do not exist");
-
-          }
-
-      $.each(data.response.songs,function(i){
-
-          var newSong = data.response.songs[i].title;
-          var newArtist = data.response.songs[i].artist_name; 
-          var newSpotifyTrackID = data.response.songs[i].tracks[0].foreign_id;
-          var newSpotifyTrackID2 = newSpotifyTrackID.split("track:").pop();
-
-          console.log(newSong);
-          console.log(newArtist);
-          console.log(newSpotifyTrackID);
-          console.log(newSpotifyTrackID2);
-
-
-          $.ajax({
-            url: "https://api.spotify.com/v1/tracks/" + newSpotifyTrackID2,
-            dataType: "json",
-            success: function(data){
-            newPreviewURL= data.preview_url;
-            newTrackImage = data.album.images[0].url;
-            console.log(newPreviewURL);
-            console.log(newTrackImage);
-
-            $("#PlaylistCardContent").append('<div class="section hoverable"><img src="'+ newTrackImage +'" alt="trackImage" height="60" width="60"><h5 class="newSong">' 
-            + newSong
-            + '</h5><p class="newArtist"></p>' 
-            + newArtist
-            + '<audio controls><source id="newPreview" src="'
-            + newPreviewURL
-            + '"></audio></div><div class="divider"></div>');
-
-            }
-          });
-
-      });
+      generateTracks(data.response.songs);
     }
   });
 };
-
-//Generate playlist by song or similar songs
-
-$('#bySong').on("click", function(){
-  generateBySong(songQuery, artistQuery)
-  $('#newPlaylistSection').slideDown();
-});
 
 function generateBySong(songQuery){
   $.ajax({
@@ -261,73 +159,52 @@ function generateBySong(songQuery){
      + songID + "&format=json&results=20&type=song-radio&bucket=id:spotify&bucket=tracks&limit=true",
     dataType: "json",
     success: function(data){
-
-      if ($(".newSong, .newArtist").length){
-            console.log("a playlist has already been generated");
-            $("#PlaylistCardContent").empty();
-          }
-          else {
-            console.log("new songs do not exist");
-
-          }
-
-      $.each(data.response.songs,function(i){
-
-          var newSong = data.response.songs[i].title;
-          var newArtist = data.response.songs[i].artist_name; 
-          var newSpotifyTrackID = data.response.songs[i].tracks[0].foreign_id;
-          var newSpotifyTrackID2 = newSpotifyTrackID.split("track:").pop();
-
-          console.log(newSong);
-          console.log(newArtist);
-          console.log(newSpotifyTrackID);
-          console.log(newSpotifyTrackID2);
-
-
-          $.ajax({
-            url: "https://api.spotify.com/v1/tracks/" + newSpotifyTrackID2,
-            dataType: "json",
-            success: function(data){
-            newPreviewURL= data.preview_url;
-            newTrackImage = data.album.images[0].url;
-            console.log(newPreviewURL);
-            console.log(newTrackImage);
-
-            $("#PlaylistCardContent").append('<div class="section hoverable"><img src="'+ newTrackImage +'" alt="trackImage" height="60" width="60"><h5 class="newSong">' 
-            + newSong
-            + '</h5><p class="newArtist"></p>' 
-            + newArtist
-            + '<audio controls><source id="newPreview" src="'
-            + newPreviewURL
-            + '"></audio></div><div class="divider"></div>');
-
-            }
-          });
-
-      });
+      generateTracks(data.response.songs);
     }
   });
 };
 
+function generateTracks(tracks){
+  if ($(".newSong, .newArtist").length){
+    console.log("a playlist has already been generated");
+    $("#PlaylistCardContent").empty();
+  } else {
+    console.log("new songs do not exist");
+  }
 
-//Play each song in playlist
+  $.each(tracks,function(i){
+    var newSong = tracks[i].title;{
+    var newArtist = tracks[i].artist_name; 
+    var newSpotifyTrackID = tracks[i].tracks[0].foreign_id;
+    var newSpotifyTrackID2 = newSpotifyTrackID.split("track:").pop();}
 
+    $.ajax({
+      url: "https://api.spotify.com/v1/tracks/" + newSpotifyTrackID2,
+      dataType: "json",
+      success: function(data){
+        newPreviewURL= data.preview_url;
+        newTrackImage = data.album.images[0].url;
 
+        $("#PlaylistCardContent").append(
+          '<div class="section hoverable" data-track-id="' + newSpotifyTrackID2 + '">' + 
+            '<img src="'+ newTrackImage +'" alt="trackImage" height="60" width="60">' + 
+              '<h5 class="newSong">' + newSong + '</h5>' + 
+              '<p class="newArtist">' + newArtist + '</p>' +
+              '<audio id="' + newSpotifyTrackID2 + '" controls>' + 
+                '<source src="' + newPreviewURL + '">' + 
+              '</audio>' + 
+          '</div>' + 
+          '<div class="divider"></div>'
+        );
 
-
-$('').on("click", function (){
-      playPlaylistSong();
-    }
-);
-
-
-
-//Get started
-
-$('#getStartedButton').on("click", function (){
-      $('.intro').slideUp();
-      $('#search').slideDown();
-    }
-);
-
-
+        $('[data-track-id=' + newSpotifyTrackID2 + ']').click(function () {
+          console.log('I clicked on track id ', newSpotifyTrackID2);
+          // jquery requires us to put a [0] infront of the audio tag
+          // before we call play on it
+          // via http://stackoverflow.com/a/16093819
+          $('#' + newSpotifyTrackID2)[0].play();
+        });
+      }
+    });
+  });
+}
